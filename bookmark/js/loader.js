@@ -8,7 +8,7 @@
 		externalJS = ["qr.js/qr.min.js"];
 
 	function loadjscssfile(filename, filetype){
-		
+
 		if (filetype=="js"){ //if filename is a external JavaScript file
 			var fileref=document.createElement('script');
 			fileref.setAttribute("type","text/javascript");
@@ -46,9 +46,15 @@
     	
     	try{
     		switch(type){
-    			"img": break;
-    			"canvas": break;
-    			"dataURL": break;
+    			"img": 
+    				console.log("generateQRCode, type: img");
+    				break;
+    			"canvas": 
+    				console.log("generateQRCode, type: canvas");
+    				break;
+    			"dataURL": 
+    				console.log("generateQRCode, type: dataURL");
+    				break;
     			default: break;
     		}
     	} catch(e){
