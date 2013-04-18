@@ -1,11 +1,15 @@
 (function(root){
 	"use strict";
-	var JS_LIB_PRE = "../lib/",
+	var domain = "//10.128.38.24:8888/libs/",
+		QR,
 		unitId,
 		actId,
-		loaded = [],
 		filesadded = "", //list of files already added
-		externalJS = ["qr.js/qr.min.js"];
+		externalJS = ["qr.js/qr.js"];
+
+    function log(){
+    	console && console.log && console.log(arguments);
+    };
 
 	function loadjscssfile(filename, filetype){
 
@@ -20,90 +24,131 @@
 			fileref.setAttribute("type", "text/css");
 			fileref.setAttribute("href", filename);
 		}        
-		debugger
+
 		if (typeof fileref!="undefined"){
 			document.getElementsByTagName("head")[0].appendChild(fileref);
 			fileref.onload = function(){
-				console.log(filename + " is loaded!")	
+				onReady();
+				log(filename + " is loaded!")	
 			}
 
 			fileref.onerror = function(){
-				console.log(filename + " failed to load!!!")	
+				log(filename + " failed to load!!!")	
 			}
 		}
 	};
 
 	function checkloadjscssfile(filename, filetype){
 		if (filesadded.indexOf("["+filename+"]")==-1){
-			loadjscssfile(filename, filetype)
+			loadjscssfile(filename, filetype);
 			filesadded+="["+filename+"]" //List of files added in the form "[filename1],[filename2],etc"
 		}
 	};
 
+	function adjustStyle(img){
+		if(!img) return;
+
+		img.setAttribute("style", "position:fixed; top:60px; right:20px; z-index:10000;");
+	};
+
     function generateQRCode(type){
+    	if(!unitId && !actId) return;
+
     	var info = [unitId, actId].join(","),
     		type = type || "img";
-    	
+
+    	log(unitId, actId);
     	try{
     		switch(type){
     			case "img": 
-    				console.log("generateQRCode, type: img");
+					var image = QR.image({
+						  level: 'H'
+						, size: 5
+						, value: info
+					}),
+						imgId = "qr-img",
+						oldImg;
+
+					
+					// Check image was returned (may not have been if browser doesn't support the
+					// HTML5 canvas element)
+					if (image) {
+						if(oldImg = document.getElementById(imgId)){
+							oldImg.src = image.src;
+						} else {
+							image.setAttribute("id", imgId);
+							adjustStyle(image);
+							// Add image to page
+							document.body.appendChild(image);
+						}
+					}
+
+    				log("generateQRCode, type: img" , image);
     				break;
     			case "canvas": 
-    				console.log("generateQRCode, type: canvas");
+    				log("generateQRCode, type: canvas");
     				break;
     			case "dataURL": 
-    				console.log("generateQRCode, type: dataURL");
+    				log("generateQRCode, type: dataURL");
     				break;
     			default: break;
     		}
+
     	} catch(e){
-    		console.log(e);
+    		log(e);
     	}
     	
     };
 
-    function loadUnit(unit){
-    	if(!unit) return;
+    function loadUnit(topic, unit){
 
-     	unitId = unitId.id;
+    	log(unit);
+     	unitId = unit && unit.id;
 		generateQRCode();
     };
 
-	function loadActivity(act){
-		if(!act) return;
+	function loadActivity(topic, act){
 
-		actId = act.id;
+		log(act);
+		actId = act && act.id;
 		generateQRCode();
+
     };
 
     function onReady(){
-    	var len = externalJS.length;
+    	var len = externalJS.length-1;
 
-    	while(--len){
-            if(loaded[externalJS[len]]) {
+    	while(len >= 0){
+            if(filesadded.indexOf(externalJS[len]) === -1) {
             	return;
 			}
+			len--;
     	}
 
-    	start();
+    	if(typeof require === "function"){
+    		require(["qr"], function(qr){
+    			QR = qr;
+    			start();
+    		});
+    	} else {
+    		QR = qr;
+    	}
     };
-
-    for(var len = externalJS.length-1;len--;){
-       checkloadjscssfile(externalJS[len], "js");
-    }
     
     function start(){
 	    if(typeof require === "function"){
-			require(["troopjs-core/pubsub/hub"], function(){
+			require(["troopjs-core/pubsub/hub"], function(hub){
 			   hub.subscribe("load/unit", hub, true, loadUnit);
 			   hub.subscribe("load/activity", hub, true, loadActivity);
 			});
 	    } else {
 	    	window.onhashchange = function(){
-	    		console.log("HasChanged: " + arguments);
+	    		log("HasChanged: " + arguments);
 	    	};
 	    }
     };
 
+    for(var len = externalJS.length;len--;){
+       checkloadjscssfile(domain + externalJS[len], "js");
+    }
 })(window);
