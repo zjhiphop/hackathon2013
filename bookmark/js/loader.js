@@ -48,7 +48,7 @@
 	function adjustStyle(img){
 		if(!img) return;
 
-		img.setAttribute("style", "position:fixed; top:60px; right:20px; z-index:10000;");
+		img.setAttribute("style", "position:fixed; cursor:move; top:60px; right:20px; z-index:10000;");
 		jQuery && jQuery(img).draggable();
 	};
 
