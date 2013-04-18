@@ -49,6 +49,7 @@
 		if(!img) return;
 
 		img.setAttribute("style", "position:fixed; top:60px; right:20px; z-index:10000;");
+		jQuery && jQuery(img).draggable();
 	};
 
     function generateQRCode(type){
