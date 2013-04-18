@@ -1,0 +1,6 @@
+[submodule "libs/qr.js"]
+	path = libs/qr.js
+	url = https://github.com/neocotic/qr.js.git
+[submodule "libs/bootstrap"]
+	path = libs/bootstrap
+	url = https://github.com/twitter/bootstrap.git
