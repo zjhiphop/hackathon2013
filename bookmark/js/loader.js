@@ -46,13 +46,13 @@
     	
     	try{
     		switch(type){
-    			"img": 
+    			case "img": 
     				console.log("generateQRCode, type: img");
     				break;
-    			"canvas": 
+    			case "canvas": 
     				console.log("generateQRCode, type: canvas");
     				break;
-    			"dataURL": 
+    			case "dataURL": 
     				console.log("generateQRCode, type: dataURL");
     				break;
     			default: break;
