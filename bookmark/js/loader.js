@@ -1,11 +1,13 @@
 (function(root){
 	"use strict";
-	var domain = "//10.128.38.24:8888/libs/",
+	var domain = "//10.128.38.24:8888/",
+		LIB = "libs/",
+		NOTI = "notification/",
 		QR,
 		unitId,
 		actId,
 		filesadded = "", //list of files already added
-		externalJS = ["qr.js/qr.js"];
+		externalJS = [LIB + "qr.js/qr.js", NOTI + "main.css"];
 
     function log(){
     	console && console.log && console.log(arguments);
@@ -136,6 +138,12 @@
     	}
     };
     
+    function initNotification(){
+    	jQuery("<div></div>").data({
+    		"weave": domain + NOTI + "main"
+    	}).appendTo("body").weave();
+    };
+
     function start(){
 	    if(typeof require === "function"){
 			require(["troopjs-core/pubsub/hub"], function(hub){
@@ -147,6 +155,7 @@
 	    		log("HasChanged: " + arguments);
 	    	};
 	    }
+	    initNotification();
     };
 
     for(var len = externalJS.length;len--;){
