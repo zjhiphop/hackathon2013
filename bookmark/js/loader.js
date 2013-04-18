@@ -20,7 +20,7 @@
 			fileref.setAttribute("type", "text/css");
 			fileref.setAttribute("href", filename);
 		}        
-
+		debugger
 		if (typeof fileref!="undefined"){
 			document.getElementsByTagName("head")[0].appendChild(fileref);
 			fileref.onload = function(){
@@ -90,7 +90,7 @@
     };
 
     for(var len = externalJS.length-1;len--;){
-       loadjscssfile(externalJS[len], "js");
+       checkloadjscssfile(externalJS[len], "js");
     }
     
     function start(){
