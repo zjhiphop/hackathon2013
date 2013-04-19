@@ -1,6 +1,6 @@
 (function(root){
 	"use strict";
-	var domain = "//10.128.38.24:8888/libs/",
+	var domain = "//schooluxuat.englishtown.com/hackathon2013/libs/",
 		QR,
 		unitId,
 		actId,
