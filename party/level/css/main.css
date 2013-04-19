@@ -1,0 +1,76 @@
+.page {
+  width: 770px;
+  margin: 0px auto;
+  position: relative;
+  background: #eeeeee url(../img/bg2.png);
+}
+.page .btn-close-pop {
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  background: url(../img/close.png) no-repeat;
+  position: absolute;
+  top: -12px;
+  right: -12px;
+  z-index: 100;
+}
+.header {
+  position: relative;
+  height: 160px;
+  background: url(../img/headbg.jpg);
+}
+.header .avatar {
+  position: absolute;
+  left: 40px;
+  top: 30px;
+}
+.header .avatar img {
+  border: 5px solid #eee;
+  border-radius: 5px;
+}
+.header .name {
+  color: #fff;
+  font-size: 32px;
+  text-shadow: 0px 1px 0 #000;
+  position: absolute;
+  left: 160px;
+  top: 80px;
+}
+.body {
+  padding: 10px 0 50px 0;
+}
+.body .event {
+  position: relative;
+  margin: 20px 15px;
+  box-shadow: 0 0 15px #ccc;
+  background: #fff;
+  min-height: 50px;
+  width: 540px;
+  padding: 15px 20px;
+  border-radius: 5px;
+  left: 103px;
+}
+.body .event .time {
+  font-size: 14px;
+  color: #666;
+}
+.body .event img {
+  max-width: 540px;
+}
+.body .event .dot {
+  position: absolute;
+  width: 46px;
+  height: 36px;
+  left: -46px;
+  top: 12px;
+  background: url(../img/dot.png) no-repeat;
+}
+.timeline {
+  position: absolute;
+  top: 130px;
+  left: 86px;
+  width: 7px;
+  background: #fff;
+  opacity: 0.9;
+  height: 80%;
+}
