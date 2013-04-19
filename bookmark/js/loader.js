@@ -1,16 +1,16 @@
 (function(root){
 	"use strict";
 
-	var domain = "http://10.128.38.24:8888/",
+	var domain = "http://schooluxuat.englishtown.com/hackathon2013/",
 		LIB = "libs/",
 		NOTI = "notification",
 		QR,
 		unitId,
 		actId,
 		filesadded = "", //list of files already added
-		externalRes = [LIB + "qr.js/qr.js", NOTI + "/main.css", NOTI + "/main.js"];
+		externalRes = [LIB + "qr.js/qr.js"];
 
-	window.noti_domain = "http://10.128.38.24:8888/" + NOTI;
+	window.noti_domain = domain + NOTI;
 
     function log(){
     	console && console.log && console.log(arguments);
@@ -141,12 +141,75 @@
     	}
     };
 
+    function showFancy(url, sets){
+        var Fancybox = $.fancybox; // headerfooter project will overwrite the shim config of fancybox, it export $.fancybox
+
+        Fancybox.init();
+
+        setTimeout(function(){
+            Fancybox(
+                {
+                    type: "iframe",
+                    href: url,
+                    width: sets.width,//780,
+                    height: sets.height,//"95%", //this height is the same as unit(4 lessons) view's height
+                    padding: 0,
+                    margin: 0,
+                    speedIn: 600,
+                    speedOut: 200,
+                    hideOnOverlayClick: false,
+                    onComplete: function(currentArray, currentIndex, currentOpts) {
+
+                    }
+                });
+        });
+    };
+
     function start(){
 	    if(typeof require === "function"){
-			require(["troopjs-core/pubsub/hub"], function(hub){
-			   hub.subscribe("load/unit", hub, true, loadUnit);
-			   hub.subscribe("load/activity", hub, true, loadActivity);
-			});
+			require(["troopjs-core/pubsub/hub", "school-ui-study/util/progress-state"], 
+                function(hub, ProState){
+                   var TOPIC_UPDATE_PROS = "ef/update/progress";
+
+    			   hub.subscribe("load/unit", hub, true, loadUnit);
+    			   hub.subscribe("load/activity", hub, true, loadActivity);
+
+                   hub.subscribe("party/unit/passed", hub, true, function(){
+                        showFancy((domain + "party/unit/index.html"), {width: 500, height: 500});                      
+                   });
+                   
+                   hub.subscribe("party/level/passed", hub, true, function(){
+                        showFancy((domain + "party/level/index.html"), {width: 780, height: "95%"});                      
+                   });
+
+                   function update(topic, progress){
+                        if(!progress) return;
+                        var levelHasPassed = ProState.hasPassed(progress.levelProgress.state || 0),
+                            unitHasPassed = ProState.hasPassed(progress.unitProgress.state || 0);
+
+                        if(levelHasPassed){
+                            showFancy((domain + "party/level/index.html"), {width: 780, height: "95%"});
+                        }
+
+                        if(unitHasPassed){
+                            showFancy((domain + "party/unit/index.html") , {width: 500, height: 500});   
+                        }
+                    };
+
+                    hub.subscribe(TOPIC_UPDATE_PROS, hub, false, update);
+
+                    var show_party = "<button style='float: right;  margin: 0 5px;' class='ets-btn ets-btn-shadowed ets-btn-purple'><span>Show Party</span></button>";
+                    var show_party_feedback = "<button style='float: right; margin: 0 5px;' class='ets-btn ets-btn-shadowed ets-btn-purple'><span>Show Party Feedback</span></button>";
+                    $(show_party).click(function(){
+                        hub.publish("party/unit/passed");
+                    }).appendTo(".ets-ui-unit-hd").draggable();
+
+                    $(show_party_feedback).click(function(){
+                        hub.publish("party/level/passed");
+                    }).appendTo(".ets-ui-unit-hd").draggable();
+
+    			});
+
 
 			//require((domain + NOTI + "main.js"));
 	    } else {

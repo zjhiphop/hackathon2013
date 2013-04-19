@@ -1,0 +1,90 @@
+.wrap {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+}
+.backdrop {
+	width: 100%;
+	height: 100%;
+	background: #333;
+	opacity: 0.8;
+	position: fixed;
+}
+.page {
+	box-shadow: 0 0 25px #333;
+	width: 770px;
+	margin: 50px auto;
+	position: relative;
+	.btn-close-pop {
+		cursor: pointer;
+		width: 30px;
+		height: 30px;
+		background:  url(../img/close.png) no-repeat;
+		position: absolute;
+		top: -12px;
+		right: -12px;
+		z-index: 100;
+	}
+	background: #eee url(../img/bg2.png);
+}
+
+.header {
+	position: relative;
+	height: 160px;
+	background: url(../img/headbg.jpg);
+	.avatar {
+		position: absolute;
+		left: 40px;
+		top: 30px;
+		img {
+			border: 5px solid #eee;
+			border-radius: 5px;
+		}
+	}
+	.name {
+		color: #fff;
+		font-size: 32px;
+		text-shadow: 0px 1px 0 #000;
+		position: absolute;
+		left: 160px;
+		top: 80px;
+	}
+}
+
+.body {
+	overflow: auto;
+	height: 450px;
+	padding: 10px 0 50px 0; 
+	.event {
+		.time {font-size: 12px; color: #999;}
+		position: relative;
+		margin: 20px 15px;
+		box-shadow: 0 0 15px #ccc;
+		background: #fff;
+		min-height: 50px;
+		width: 540px;
+		padding: 15px 20px;
+		border-radius: 5px;
+		left: 103px;
+		.dot {
+			position: absolute;
+			width: 46px;
+			height: 36px;
+			left: -46px;
+			top: 12px;
+			background:  url(../img/dot.png) no-repeat;
+		}
+		
+	}
+}
+
+.timeline {
+	position: absolute;
+	top: 130px;
+	left: 86px;
+	width: 7px;
+	background: #fff;
+	opacity: 0.9;
+	height: 80%;
+}
+

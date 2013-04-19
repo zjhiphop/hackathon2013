@@ -1,6 +1,6 @@
 define([
 	"troopjs-core/pubsub/hub",
-	window.noti_domain + "unitpass/unit-mock-data.js"
+	window.noti_domain + "/unitpass/unit-mock-data.js"
 	], function(Hub, Data, QR){
 
 	var TOPIC_SHOW_NOTIFICATION = "show/notification",

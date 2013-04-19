@@ -1,8 +1,8 @@
 define([
 	"underscore",
 	"troopjs-core/pubsub/hub",
-	window.noti_domain + "/level-mock-data.js",
-	window.noti_domain + "/level-pass.html"	],
+	window.noti_domain + "/levelpass/level-mock-data.js",
+	window.noti_domain + "/levelpass/level-pass.html"	],
 	 function(_, Hub, Data, tLevelPass){
 
 	var TOPIC_SHOW_NOTIFICATION = "show/notification",
@@ -19,6 +19,6 @@ define([
 		
 	};
 
-	Hub.subscribe(TOPIC_LOAD_LEVEL, Hub, false, loadUnit);
+	Hub.subscribe(TOPIC_LOAD_LEVEL, Hub, false, loadLevel);
 	Hub.subscribe(TOPIC_LEVEL_PASS_NOTIFY, Hub, false, levelPassHandler);
 });
