@@ -1,12 +1,17 @@
-define([
+require([
 	"jquery",
-	"troopjs-core/component/widget",
-	"./notification.html"
-	], function($, Widget, tNotification){
+	"troopjs-core/pubsub/hub",
+	window.noti_domain + "/notification.html",
+	window.noti_domain + "/pass/progress-notification.js"
+	], function($, Hub, tNotification){
  	
  	var CLS_HD = "notify-hd",
  		CLS_BD = "notify-bd",
  		CLS_BT = "notify-bt";
+
+ 	var $title ,
+ 		$intro ,
+ 		$bottom ;
 
 
  	function updateHTML(data){
@@ -15,21 +20,23 @@ define([
  		this.$bottom.html(data.bottom);
  	};
 
- 	return Widget.extend(function(){
- 		var me = this;
- 		this.html(null, tNotification, $.Deferred().done(function(){
- 			var $el = me.$element;
- 			me.$title = $el.find(CLS_HD);
- 			me.$intro = $el.find(CLS_BD);
- 			me.$bottom = $el.find(CLS_BT)
- 		}));
- 	},{
- 		"hub/show/notification": function(topic, data){
- 			updateHTML.call(this, data);
- 			location.hash = "openModal";
- 		}, 
- 		"hub/hide/notification": function(){
- 			location.hash = "close";
- 		}
- 	});
+ 	function show(data){
+ 		updateHTML.call(this, data);
+ 		//show
+ 	};
+
+ 	function hide(){
+
+ 	};
+
+ 	function init(){
+ 		
+ 		var $el = $('<div class="party-notify"></div>').html(tNotification).appendTo('body');
+		$title = $el.find(CLS_HD);
+		$intro = $el.find(CLS_BD);
+		$bottom = $el.find(CLS_BT)
+		
+		Hub.subscribe("show/notification", Hub, false, loadUnit);
+ 		Hub.subscribe("hide/notification", Hub, false, loadUnit);
+ 	};
 });

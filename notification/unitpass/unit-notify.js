@@ -1,7 +1,6 @@
 define([
 	"troopjs-core/pubsub/hub",
-	"./unit-mock-data",
-	"qr"
+	window.noti_domain + "unitpass/unit-mock-data.js"
 	], function(Hub, Data, QR){
 
 	var TOPIC_SHOW_NOTIFICATION = "show/notification",
@@ -15,7 +14,8 @@ define([
 	function loadUnit(topic, unit){
 		if(!unit) return;
 		var info = Data.partyId + "," + unit.id;
-		
+		var qr = require("qr");
+
 		Data.bottom = qr.image({
 		      level: 'H'
 		    , size: 4

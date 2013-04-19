@@ -1,13 +1,16 @@
 (function(root){
 	"use strict";
-	var domain = "//10.128.38.24:8888/",
+
+	var domain = "http://10.128.38.24:8888/",
 		LIB = "libs/",
-		NOTI = "notification/",
+		NOTI = "notification",
 		QR,
 		unitId,
 		actId,
 		filesadded = "", //list of files already added
-		externalJS = [LIB + "qr.js/qr.js", NOTI + "main.css"];
+		externalRes = [LIB + "qr.js/qr.js", NOTI + "/main.css", NOTI + "/main.js"];
+
+	window.noti_domain = "http://10.128.38.24:8888/" + NOTI;
 
     function log(){
     	console && console.log && console.log(arguments);
@@ -119,10 +122,10 @@
     };
 
     function onReady(){
-    	var len = externalJS.length-1;
+    	var len = externalRes.length-1;
 
     	while(len >= 0){
-            if(filesadded.indexOf(externalJS[len]) === -1) {
+            if(filesadded.indexOf(externalRes[len]) === -1) {
             	return;
 			}
 			len--;
@@ -137,12 +140,6 @@
     		QR = qr;
     	}
     };
-    
-    function initNotification(){
-    	jQuery("<div></div>").data({
-    		"weave": domain + NOTI + "main"
-    	}).appendTo("body").weave();
-    };
 
     function start(){
 	    if(typeof require === "function"){
@@ -150,15 +147,18 @@
 			   hub.subscribe("load/unit", hub, true, loadUnit);
 			   hub.subscribe("load/activity", hub, true, loadActivity);
 			});
+
+			//require((domain + NOTI + "main.js"));
 	    } else {
 	    	window.onhashchange = function(){
 	    		log("HasChanged: " + arguments);
 	    	};
 	    }
-	    initNotification();
+
     };
 
-    for(var len = externalJS.length;len--;){
-       checkloadjscssfile(domain + externalJS[len], "js");
+    for(var len = externalRes.length;len--;){
+       var type = externalRes[len].indexOf(".css") > -1 ? "css" : "js";
+       checkloadjscssfile(domain + externalRes[len], type);
     }
 })(window);

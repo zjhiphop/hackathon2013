@@ -1,6 +1,8 @@
 define([
 	"school-ui-study/util/progress-state",
-	"troopjs-core/pubsub/hub"
+	"troopjs-core/pubsub/hub",
+	window.noti_domain + "/unitpass/unit-notify.js",
+	window.noti_domain + "/levelpass/level-notify.js"
 	], function(ProState, Hub){
 	var TOPIC_UPDATE_PROS = "ef/update/progress",
 		TOPIC_SHOW_UNIT_PASS = "show/unit/pass/notify",
